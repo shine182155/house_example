@@ -1,13 +1,3 @@
-import java.util.Properties
-import java.io.FileInputStream
-
-plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("dev.flutter.flutter-gradle-plugin")
-}
-
-
 android {
     signingConfigs {
         create("release") {
@@ -15,6 +5,7 @@ android {
             storePassword = System.getenv("KEYSTORE_PASSWORD")
             keyAlias = System.getenv("KEY_ALIAS")
             keyPassword = System.getenv("KEY_PASSWORD")
+        }
     }
 
     namespace = "com.example.house_example"
@@ -49,21 +40,3 @@ android {
         }
     }
 }
-
-dependencies {
-
-    implementation("com.umeng.umsdk:common:9.5.4")
-    implementation("com.umeng.umsdk:asms:1.8.0")
-    implementation("com.umeng.umsdk:abtest:1.0.0")
-
-
-
-
-
-
-}
-
-flutter {
-    source = "../.."
-}
-
