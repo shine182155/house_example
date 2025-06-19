@@ -11,10 +11,10 @@ plugins {
 android {
     signingConfigs {
         create("release") {
-            storeFile file("upload-keystore.jks")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storeFile = project.file("upload-keystore.jks")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS")
+            keyPassword = System.getenv("KEY_PASSWORD")
     }
 
     namespace = "com.example.house_example"
