@@ -1,0 +1,129 @@
+default_platform(:android)
+
+platform :android do
+  # 构建 APK (不上传Google Play的简洁版)
+  lane :build_apk do
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+
+    )
+  end
+
+  # 纯构建AAB (不上传)
+  lane :build_aab do
+    gradle(
+      task: "bundle",
+      build_type: "Release"
+    )
+  end
+end
+
+
+# default_platform(:android)
+#
+# platform :android do
+#   desc "Increments the versionCode and builds an APK (without uploading)"
+#   lane :build_apk do
+#     # 1. Increment versionCode
+#     increment_version_code
+#
+#     # 2. Build APK
+#     gradle(
+#       task: "assemble",
+#       build_type: "Release"
+#     )
+#   end
+#
+#   desc "Increments the versionCode and builds an AAB (without uploading)"
+#   lane :build_aab do
+#     # 1. Increment versionCode
+#     increment_version_code
+#
+#     # 2. Build AAB
+#     gradle(
+#       task: "bundle",
+#       build_type: "Release"
+#     )
+#   end
+#
+#   # Helper lane to increment versionCode (implementation details omitted for brevity)
+#   lane :increment_version_code do
+#     # 从 pubspec.yaml 获取当前的 versionCode
+#     current_version_code = get_version_code_from_pubspec
+#
+#     # 将 versionCode 转换为整数
+#     current_version_code_int = current_version_code.to_i
+#
+#     # versionCode 自增
+#     new_version_code = current_version_code_int + 1
+#
+#     # 更新 build.gradle 中的 versionCode
+#     increment_version_code_gradle(version_code: new_version_code)
+#
+#     # 同时更新 pubspec.yaml 中的 versionCode
+#     update_pubspec_version(new_version_code)
+#   end
+#
+#   def get_version_code_from_pubspec
+#     version = File.read('pubspec.yaml').scan(/version: (.+)/)[0][0]
+#     version.split('+')[1]
+#   end
+#
+#   def update_pubspec_version(new_version_code)
+#     pubspec_path = "pubspec.yaml"
+#     pubspec_content = File.read(pubspec_path)
+#     version_line = pubspec_content.lines.find { |line| line.start_with?("version:") }
+#
+#     unless version_line
+#       UI.error("Could not find 'version:' line in pubspec.yaml")
+#       exit 1
+#     end
+#
+#     current_version = version_line.split(':').last.strip
+#     version_name = current_version.split('+')[0] # 获取 version name
+#
+#     new_version_line = "version: #{version_name}+#{new_version_code}\n"
+#     new_pubspec_content = pubspec_content.gsub(version_line, new_version_line)
+#
+#     File.write(pubspec_path, new_pubspec_content)
+#     sh "git add #{pubspec_path}"
+#     sh "git commit -m 'Bump versionCode to #{new_version_code}'"
+#   end
+#
+#    def update_flutter_version_code(file:, value:)
+#     # Reads in the gradle file
+#     file_content = File.read(file)
+#
+#     # Regex which matches: `versionCode = flutter.versionCode`
+#     # This regex is more robust, matching the entire line and handling potential whitespace
+#     regex = /(versionCode\s*=\s*)flutter\.versionCode/
+#
+#     # Look for the line with `flutter.versionCode` to get flutter value
+#     match = file_content.match(regex)
+#
+#     unless match
+#       UI.error("Could not find 'versionCode = flutter.versionCode' in #{file}")
+#       exit 1
+#     end
+#
+#     original_line = match[0]
+#
+#     # Replaces the line that contains the flutter.versionCode with the new value
+#     new_file_content = file_content.gsub(original_line, "versionCode = #{value}")
+#
+#     File.write(file, new_file_content)
+#
+#     sh "git add #{file}"
+#     sh "git commit -m 'Update versionCode in #{file} to #{value}'"
+#   end
+#
+#   # 更新 Android gradle 的版本信息
+#   def increment_version_code_gradle(version_code:)
+#     gradle_file = File.join("android", "app", "build.gradle")
+#     update_flutter_version_code(
+#       file: gradle_file,
+#       value: version_code.to_s
+#     )
+#   end
+# end

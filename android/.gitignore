@@ -1,0 +1,16 @@
+gradle-wrapper.jar
+/.gradle
+/captures/
+# 在 .gitignore 中添加
+
+/android/fastlane/.env
+
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/to/reference-keystore
+key.properties
+**/*.keystore
+**/*.jks
